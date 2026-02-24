@@ -1,0 +1,6 @@
+@VisionPlatform_HostAddress = http://localhost:5288
+
+GET {{VisionPlatform_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

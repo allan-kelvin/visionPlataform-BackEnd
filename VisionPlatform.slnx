@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="VisionPlatform.API/VisionPlatform.API.csproj" Id="8a7b9620-5bdd-4830-8a67-ef62a2e4b274" />
+  <Project Path="VisionPlatform.Application/VisionPlatform.Application.csproj" Id="2eb21d87-9475-45dd-80ec-7b004e894b86" />
+  <Project Path="VisionPlatform.Domain/VisionPlatform.Domain.csproj" Id="19f97193-8297-4bd5-a234-eb9f0b34beda" />
+  <Project Path="VisionPlatform.Infrastructure/VisionPlatform.Infrastructure.csproj" Id="e0d1b3d3-8df3-4c32-925c-d41b0648f653" />
+</Solution>

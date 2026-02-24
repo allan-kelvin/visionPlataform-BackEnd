@@ -53,3 +53,17 @@ dkms.conf
 
 # debug information files
 *.dwo
+# Visual Studio
+.vs/
+bin/
+obj/
+
+# User files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build
+Debug/
+Release/
