@@ -166,6 +166,7 @@ Login padrão:
   "email": "admin@vision.com",
   "password": "123456"
 }
+````
 
  🧰 # Tecnologias Utilizadas
 
@@ -192,10 +193,15 @@ Bootstrap
 🗄️ Backend
 1️⃣ Criar banco
 
+```sql
 CREATE DATABASE visiondb;
-
+````
+## Rodar projeto
+```bash
 dotnet ef database update --project VisionPlatform.Infrastructure --startup-project VisionPlatform.API
-
+```
+## Swagger
+```bash
 dotnet run --project VisionPlatform.API
-
+````
 https://localhost:7293/swagger
