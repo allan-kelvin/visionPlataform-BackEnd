@@ -1,4 +1,6 @@
-﻿namespace VisionPlatform.Domain.Entities
+﻿using VisionPlatform.Domain.Enums;
+
+namespace VisionPlatform.Domain.Entities
 {
     public class ReleaseVersion
     {
@@ -6,7 +8,7 @@
 
         public string NumeroVersao { get; set; }
 
-        public string StatusVersao { get; set; }
+        public VersionStatus StatusVersao { get; set; }
 
         public DateTime? DataLimiteTarefas { get; set; }
 

@@ -6,10 +6,9 @@ namespace VisionPlatform.Infrastructure.Data
     public class VisionDbContext : DbContext
     {
         public VisionDbContext(DbContextOptions<VisionDbContext> options)
-     : base(options)
+            : base(options)
         {
         }
-
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -22,10 +21,34 @@ namespace VisionPlatform.Infrastructure.Data
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // --- Configuração de Enums (Conversão para String no MySQL) ---
+
+            modelBuilder.Entity<ReleaseVersion>()
+                .Property(e => e.StatusVersao)
+                .HasConversion<string>()
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<VersionTask>(entity =>
+            {
+                entity.Property(e => e.StatusPlanejamento)
+                    .HasConversion<string>()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Tipo)
+                    .HasConversion<string>()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TestEvidence>()
+                .Property(e => e.Tipo)
+                .HasConversion<string>()
+                .HasMaxLength(30);
+
+            // --- Relacionamentos e Chaves Estrangeiras ---
 
             modelBuilder.Entity<VersionTask>()
                 .HasOne(v => v.UsuarioMerge)
@@ -58,8 +81,6 @@ namespace VisionPlatform.Infrastructure.Data
                 .HasOne(up => up.Permission)
                 .WithMany()
                 .HasForeignKey(up => up.PermissionId);
-
         }
-
     }
 }

@@ -10,7 +10,7 @@ namespace VisionPlatform.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class VersionTasksController : ControllerBase
+    public class VersionTasksController : ApiControllerBase
     {
         private readonly IVersionTaskService _service;
 

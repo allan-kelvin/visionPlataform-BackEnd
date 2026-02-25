@@ -9,7 +9,7 @@ namespace VisionPlatform.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class AreasController: ControllerBase
+    public class AreasController: ApiControllerBase
     {
         private readonly IAreaService _service;
 

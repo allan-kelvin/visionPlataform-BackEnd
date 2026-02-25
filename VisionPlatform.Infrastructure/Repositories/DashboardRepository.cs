@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VisionPlatform.Application.DTOs.Dashboard;
 using VisionPlatform.Application.Interfaces;
+using VisionPlatform.Domain.Enums;
 using VisionPlatform.Infrastructure.Data;
+using TaskStatus = VisionPlatform.Domain.Enums.TaskStatus;
 
 namespace VisionPlatform.Infrastructure.Repositories
 {
@@ -22,11 +24,11 @@ namespace VisionPlatform.Infrastructure.Repositories
                 {
                     VersionId = v.Id,
                     NumeroVersao = v.NumeroVersao,
-                    Status = v.StatusVersao,
+                    Status = v.StatusVersao.ToString(),
 
                     TotalTarefas = v.Tasks.Count(),
-                    Confirmadas = v.Tasks.Count(t => t.StatusPlanejamento == "Confirmado"),
-                    Desejaveis = v.Tasks.Count(t => t.StatusPlanejamento == "Desejavel"),
+                    Confirmadas = v.Tasks.Count(t => t.StatusPlanejamento == TaskStatus.Confirmado),
+                    Desejaveis = v.Tasks.Count(t => t.StatusPlanejamento == TaskStatus.Planejada),
                     SemQA = v.Tasks.Count(t => t.QaUserId == null),
                     SemMerge = v.Tasks.Count(t => !t.MergeRealizado)
                 })
@@ -60,9 +62,9 @@ namespace VisionPlatform.Infrastructure.Repositories
             return new DashboardSummaryDto
             {
                 TotalVersions = await versions.CountAsync(),
-                EmPlanejamento = await versions.CountAsync(v => v.StatusVersao == "Planejamento"),
-                EmTestes = await versions.CountAsync(v => v.StatusVersao == "EmTestes"),
-                Liberadas = await versions.CountAsync(v => v.StatusVersao == "Liberada")
+                EmPlanejamento = await versions.CountAsync(v => v.StatusVersao == VersionStatus.Planejamento),
+                EmTestes = await versions.CountAsync(v => v.StatusVersao == VersionStatus.EmTestes),
+                Liberadas = await versions.CountAsync(v => v.StatusVersao == VersionStatus.Liberada)
             };
         }
     }

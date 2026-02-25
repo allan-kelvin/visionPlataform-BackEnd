@@ -1,4 +1,6 @@
-﻿namespace VisionPlatform.Domain.Entities
+﻿using VisionPlatform.Domain.Enums;
+
+namespace VisionPlatform.Domain.Entities
 {
     public class TestEvidence
     {
@@ -8,7 +10,7 @@
 
         public long QaUserId { get; set; }
 
-        public string Tipo { get; set; } // Imagem | VideoLink
+        public EvidenceType Tipo { get; set; } // Imagem | VideoLink
 
         public string? NomeArquivo { get; set; }
 

@@ -8,7 +8,7 @@ namespace VisionPlatform.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class ClientesController : ControllerBase
+    public class ClientesController : ApiControllerBase
     {
         private readonly IClienteService _service;
 

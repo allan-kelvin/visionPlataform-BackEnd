@@ -1,4 +1,8 @@
-﻿namespace VisionPlatform.Domain.Entities
+﻿using VisionPlatform.Domain.Enums;
+using TaskStatus = VisionPlatform.Domain.Enums.TaskStatus;
+
+
+namespace VisionPlatform.Domain.Entities
 {
     public class VersionTask
     {
@@ -16,9 +20,9 @@
 
         public string Titulo { get; set; }
 
-        public string Tipo { get; set; }
+        public TaskType Tipo { get; set; }
 
-        public string StatusPlanejamento { get; set; }
+        public TaskStatus StatusPlanejamento { get; set; }
 
         public long? QaUserId { get; set; }
 

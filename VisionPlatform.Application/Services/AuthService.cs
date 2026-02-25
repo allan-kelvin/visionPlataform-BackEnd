@@ -1,8 +1,6 @@
 ﻿using VisionPlatform.Application.DTOs.Auth;
 using VisionPlatform.Application.Interfaces;
 using VisionPlatform.Domain.Interfaces;
-using VisionPlatform.Application.Interfaces;
-
 
 namespace VisionPlatform.Application.Services
 {

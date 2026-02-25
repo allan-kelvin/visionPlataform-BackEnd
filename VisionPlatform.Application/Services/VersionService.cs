@@ -1,6 +1,8 @@
 ﻿using VisionPlatform.Application.DTOs.Versions;
 using VisionPlatform.Domain.Entities;
+using VisionPlatform.Domain.Enums;
 using VisionPlatform.Domain.Interfaces;
+using TaskStatus = VisionPlatform.Domain.Enums.TaskStatus;
 
 namespace VisionPlatform.Application.Services
 {
@@ -25,7 +27,7 @@ namespace VisionPlatform.Application.Services
             {
                 Id = v.Id,
                 NumeroVersao = v.NumeroVersao,
-                StatusVersao = v.StatusVersao,
+                StatusVersao = v.StatusVersao.ToString(),
                 DataLimiteTarefas = v.DataLimiteTarefas,
                 DataPrevistaLiberacao = v.DataPrevistaLiberacao,
                 DataLiberacaoReal = v.DataLiberacaoReal,
@@ -42,7 +44,7 @@ namespace VisionPlatform.Application.Services
             {
                 Id = v.Id,
                 NumeroVersao = v.NumeroVersao,
-                StatusVersao = v.StatusVersao,
+                StatusVersao = v.StatusVersao.ToString(),
                 DataLimiteTarefas = v.DataLimiteTarefas,
                 DataPrevistaLiberacao = v.DataPrevistaLiberacao,
                 DataLiberacaoReal = v.DataLiberacaoReal,
@@ -76,7 +78,7 @@ namespace VisionPlatform.Application.Services
             if (version == null)
                 throw new Exception("Versão não encontrada.");
 
-            if (version.StatusVersao == "Liberada")
+            if (version.StatusVersao == VersionStatus.Liberada)
                 throw new Exception("Versão já liberada não pode ser alterada");
 
             version.NumeroVersao = dto.NumeroVersao;
@@ -94,7 +96,7 @@ namespace VisionPlatform.Application.Services
             var version = await _repository.GetByIdAsync(id);
             if (version == null)
                 throw new Exception("Versão não encontrada.");
-            if (version.StatusVersao == "Liberada")
+            if (version.StatusVersao == VersionStatus.Liberada)
                 throw new Exception("Versão liberada não pode ser excluida.");
 
             await _repository.DeleteAsync(version);
@@ -103,17 +105,19 @@ namespace VisionPlatform.Application.Services
         public async Task ReleaseVersionAsync(long versionId)
         {
             var version = await _repository.GetByIdAsync(versionId);
-            if (version == null)
-                throw new Exception("Versão não encontrada.");
+            if (version == null) throw new Exception("Versão não encontrada.");
 
             var tasks = await _versionTaskRepository.GetByVersionIdAsync(versionId);
 
-            var hasPendingMerge = tasks.Any(t => !t.MergeRealizado);
+            // REGRA DE OURO: Não libera se houver tarefa pendente ou sem evidência
+            var hasIssues = tasks.Any(t =>
+                !t.MergeRealizado ||
+                t.StatusPlanejamento != TaskStatus.Confirmado); // Comparação com Enum
 
-            if (hasPendingMerge)
-                throw new Exception("Não é possível liberar a versão. Existem tarefas sem merge realizado.");
+            if (hasIssues)
+                throw new Exception("Existem tarefas não confirmadas ou sem merge.");
 
-            version.StatusVersao = "Liberada";
+            version.StatusVersao = VersionStatus.Liberada; // Atribuição de Enum
             version.DataLiberacaoReal = DateTime.UtcNow;
 
             await _repository.UpdateAsync(version);

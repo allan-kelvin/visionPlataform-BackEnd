@@ -1,7 +1,9 @@
 ﻿using VisionPlatform.Application.DTOs.VersionTasks;
 using VisionPlatform.Application.Interfaces;
 using VisionPlatform.Domain.Entities;
+using VisionPlatform.Domain.Enums;
 using VisionPlatform.Domain.Interfaces;
+using TaskStatus = VisionPlatform.Domain.Enums.TaskStatus;
 
 namespace VisionPlatform.Application.Services
 {
@@ -25,8 +27,8 @@ namespace VisionPlatform.Application.Services
                 Id = t.Id,
                 VersionId = t.VersionId,
                 Titulo = t.Titulo,
-                Tipo = t.Tipo,
-                StatusPlanejamento = t.StatusPlanejamento,
+                Tipo = t.Tipo.ToString(),
+                StatusPlanejamento = t.StatusPlanejamento.ToString(),
                 MergeRealizado = t.MergeRealizado,
                 PossuiScript = t.PossuiScript,
                 PossuiTagVersao = t.PossuiTagVersao
@@ -66,18 +68,23 @@ namespace VisionPlatform.Application.Services
         public async Task UpdateAsync(long id, UpdateVersionTaskDto dto)
         {
             var task = await _repository.GetByIdAsync(id);
-            if (task == null)
-                throw new Exception("Tarefa não encontrada.");
+            if (task == null) throw new Exception("Tarefa não encontrada.");
+
+            // Validação de segurança: Versão liberada é imutável
+            var version = await _versionRepository.GetByIdAsync(task.VersionId);
+            if (version!.StatusVersao == VersionStatus.Liberada)
+                throw new Exception("Não é possível alterar tarefa de versão liberada.");
+
+            // REGRA: Para confirmar, precisa de QA e (futuramente validar evidência aqui)
+            if (dto.StatusPlanejamento == TaskStatus.Confirmado && task.QaUserId == null)
+            {
+                throw new Exception("Não é possível confirmar uma tarefa sem um QA atribuído.");
+            }
 
             task.Titulo = dto.Titulo;
-            task.Tipo = dto.Tipo;
+            task.Tipo = dto.Tipo; // Agora funciona pois ambos são Enums
             task.StatusPlanejamento = dto.StatusPlanejamento;
             task.OrdemExibicao = dto.OrdemExibicao;
-
-            var version = await _versionRepository.GetByIdAsync(task.VersionId);
-
-            if (version!.StatusVersao == "Liberada")
-                throw new Exception("Não é possível alterar tarefa de versão liberada.");
 
             await _repository.UpdateAsync(task);
         }
@@ -92,7 +99,7 @@ namespace VisionPlatform.Application.Services
             task.QuemFezMerge = userId;
 
             var version = await _versionRepository.GetByIdAsync(task.VersionId);
-            if (version!.StatusVersao == "Liberada")
+            if (version!.StatusVersao == VersionStatus.Liberada)
                 throw new Exception("Não é possivel alterar a tarefa de versão Liberada");
 
             await _repository.UpdateAsync(task);

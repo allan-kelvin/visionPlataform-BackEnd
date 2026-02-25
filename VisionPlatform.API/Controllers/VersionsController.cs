@@ -9,7 +9,7 @@ namespace VisionPlatform.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class VersionsController : ControllerBase
+    public class VersionsController : ApiControllerBase
     {
         private readonly IVersionService _service;
 

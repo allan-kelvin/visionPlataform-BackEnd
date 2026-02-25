@@ -1,4 +1,6 @@
-﻿namespace VisionPlatform.Application.DTOs.Dashboard
+﻿using VisionPlatform.Domain.Enums;
+
+namespace VisionPlatform.Application.DTOs.Dashboard
 {
     public class DashboardVersionCardDto
     {
