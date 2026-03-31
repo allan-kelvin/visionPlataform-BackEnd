@@ -25,6 +25,16 @@ namespace VisionPlatform.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(long id)
+        {
+            var result = await _service.GetByIdAsync(id);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateAreaDto dto)
         {

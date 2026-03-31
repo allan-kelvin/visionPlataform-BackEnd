@@ -18,6 +18,9 @@ namespace VisionPlatform.Infrastructure.Repositories
         {
             return await _context.VersionTasks
                 .Where(x => x.VersionId == versionId)
+                .Include(x => x.QaUser)     
+                .Include(x => x.Cliente)    
+                .Include(x => x.Area)       
                 .ToListAsync();
         }
 

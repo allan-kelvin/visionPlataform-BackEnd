@@ -9,5 +9,7 @@ namespace VisionPlatform.Application.DTOs.Versions
         public DateTime? DataLimiteTarefas { get; set; }
         public DateTime? DataPrevistaLiberacao { get; set; }
         public string? Observacoes { get; set; }
+
+        public long CriadorId { get; set; }
     }
 }

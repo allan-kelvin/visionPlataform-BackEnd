@@ -9,5 +9,6 @@
         public DateTime? DataPrevistaLiberacao { get; set; }
         public DateTime? DataLiberacaoReal { get; set; }
         public string? Observacoes { get; set; }
+        public long CriadorId { get; set; } 
     }
 }

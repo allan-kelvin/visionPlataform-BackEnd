@@ -112,6 +112,9 @@ builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+
 // ===============================
 // Banco de Dados (MySQL)
 // ===============================

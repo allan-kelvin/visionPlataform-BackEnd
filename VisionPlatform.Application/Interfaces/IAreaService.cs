@@ -10,6 +10,8 @@ namespace VisionPlatform.Application.Interfaces
 
         Task UpdateAsync(long id, CreateAreaDto dto);
 
+        Task<AreaResponseDto?> GetByIdAsync(long id);
+
         Task DeleteAsync(long id);
     }
 }

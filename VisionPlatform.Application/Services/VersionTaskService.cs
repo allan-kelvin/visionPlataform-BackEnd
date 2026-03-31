@@ -26,9 +26,17 @@ namespace VisionPlatform.Application.Services
             {
                 Id = t.Id,
                 VersionId = t.VersionId,
+
+                AzureTaskId = t.AzureTaskId,          
+                AzureTaskUrl = t.AzureTaskUrl,        
                 Titulo = t.Titulo,
-                Tipo = t.Tipo.ToString(),
+                Cliente = t.Cliente?.Nome ?? "",
+
+                Tipo = ((int)t.Tipo).ToString(),
                 StatusPlanejamento = t.StatusPlanejamento.ToString(),
+
+                Qa = t.QaUser != null ? t.QaUser.Nome : "", 
+
                 MergeRealizado = t.MergeRealizado,
                 PossuiScript = t.PossuiScript,
                 PossuiTagVersao = t.PossuiTagVersao

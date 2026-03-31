@@ -58,5 +58,18 @@ namespace VisionPlatform.Application.Services
 
             await _repository.DeleteAsync(area);
         }
+
+        public async Task<AreaResponseDto?> GetByIdAsync(long id)
+        {
+            var area = await _repository.GetByIdAsync(id);
+            if (area == null) return null;
+
+            return new AreaResponseDto
+            {
+                Id = area.Id,
+                Descricao = area.Descricao,
+                Ativo = area.Ativo
+            };
+        }
     }
 }

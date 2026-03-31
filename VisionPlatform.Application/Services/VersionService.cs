@@ -31,7 +31,8 @@ namespace VisionPlatform.Application.Services
                 DataLimiteTarefas = v.DataLimiteTarefas,
                 DataPrevistaLiberacao = v.DataPrevistaLiberacao,
                 DataLiberacaoReal = v.DataLiberacaoReal,
-                Observacoes = v.Observacoes
+                Observacoes = v.Observacoes,
+                CriadorId = v.CriadorId
             }).ToList();
         }
 
@@ -48,7 +49,8 @@ namespace VisionPlatform.Application.Services
                 DataLimiteTarefas = v.DataLimiteTarefas,
                 DataPrevistaLiberacao = v.DataPrevistaLiberacao,
                 DataLiberacaoReal = v.DataLiberacaoReal,
-                Observacoes = v.Observacoes
+                Observacoes = v.Observacoes,
+                CriadorId = v.CriadorId
             };
         }
 
