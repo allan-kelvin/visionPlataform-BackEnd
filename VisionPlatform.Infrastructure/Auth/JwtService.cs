@@ -32,8 +32,14 @@ namespace VisionPlatform.Infrastructure.Auth
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.Nome),
                 new Claim(ClaimTypes.Role, user.Role.Nome)
             };
+
+            foreach (var claim in claims)
+            {
+                Console.WriteLine($"CLAIM: {claim.Type} = {claim.Value}");
+            }
 
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],
