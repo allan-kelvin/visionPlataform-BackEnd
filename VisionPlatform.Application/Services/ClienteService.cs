@@ -54,5 +54,19 @@ namespace VisionPlatform.Application.Services
 
             await _repository.DeleteAsync(cliente);
         }
+
+        public async Task<ClienteResponseDto?> GetByIdAsync(long id)
+        {
+            var cliente = await _repository.GetByIdAsync(id);
+
+            if (cliente == null)
+                return null;
+
+            return new ClienteResponseDto
+            {
+                Id = cliente.Id,
+                Nome = cliente.Nome
+            };
+        }
     }
 }

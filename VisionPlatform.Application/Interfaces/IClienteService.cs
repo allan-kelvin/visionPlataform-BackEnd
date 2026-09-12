@@ -8,5 +8,6 @@ namespace VisionPlatform.Application.Interfaces
         Task<long> CreateAsync(CreateClienteDto dto);
         Task UpdateAsync(long id, UpdateClienteDto dto);
         Task DeleteAsync(long id);
+        Task<ClienteResponseDto?> GetByIdAsync(long id);
     }
 }

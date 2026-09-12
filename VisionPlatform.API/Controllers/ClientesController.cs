@@ -23,6 +23,17 @@ namespace VisionPlatform.API.Controllers
             return Ok(await _service.GetAllAsync());
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(long id)
+        {
+            var cliente = await _service.GetByIdAsync(id);
+
+            if (cliente == null)
+                return NotFound();
+
+            return Ok(cliente);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateClienteDto dto)
         {

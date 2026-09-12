@@ -18,12 +18,15 @@ namespace VisionPlatform.Infrastructure.Repositories
 
         public async Task<List<ReleaseVersion>> GetAllAsync()
         {
-            return await _context.Versions.ToListAsync();
+            return await _context.Versions
+                .Include(v => v.Criador)
+                .ToListAsync();
         }
 
         public async Task<ReleaseVersion?> GetByIdAsync(long id)
         {
             return await _context.Versions
+                .Include(v => v.Criador)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 

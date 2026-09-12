@@ -27,6 +27,7 @@ namespace VisionPlatform.Application.Services
                 Id = u.Id,
                 Nome = u.Nome,
                 Email = u.Email,
+                RoleId =u.RoleId,
                 Role = u.Role.Nome,
                 Ativo = u.Ativo
             }).ToList();
@@ -43,6 +44,7 @@ namespace VisionPlatform.Application.Services
                 Id = user.Id,
                 Nome = user.Nome,
                 Email = user.Email,
+                RoleId = user.RoleId,
                 Role = user.Role.Nome,
                 Ativo = user.Ativo
             };

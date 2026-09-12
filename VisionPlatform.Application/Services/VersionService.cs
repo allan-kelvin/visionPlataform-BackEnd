@@ -32,7 +32,9 @@ namespace VisionPlatform.Application.Services
                 DataPrevistaLiberacao = v.DataPrevistaLiberacao,
                 DataLiberacaoReal = v.DataLiberacaoReal,
                 Observacoes = v.Observacoes,
-                CriadorId = v.CriadorId
+                CriadorId = v.CriadorId,
+                DataCriacao = v.DataCriacao,
+                CriadorNome = v.Criador?.Nome
             }).ToList();
         }
 
@@ -50,7 +52,9 @@ namespace VisionPlatform.Application.Services
                 DataPrevistaLiberacao = v.DataPrevistaLiberacao,
                 DataLiberacaoReal = v.DataLiberacaoReal,
                 Observacoes = v.Observacoes,
-                CriadorId = v.CriadorId
+                CriadorId = v.CriadorId,
+                DataCriacao = v.DataCriacao,
+                CriadorNome = v.Criador?.Nome
             };
         }
 
@@ -107,19 +111,31 @@ namespace VisionPlatform.Application.Services
         public async Task ReleaseVersionAsync(long versionId)
         {
             var version = await _repository.GetByIdAsync(versionId);
-            if (version == null) throw new Exception("Versão não encontrada.");
+
+            if (version == null)
+                throw new Exception("Versão não encontrada.");
+
+            if (version.StatusVersao == VersionStatus.Liberada)
+                throw new Exception("Versão já está liberada.");
 
             var tasks = await _versionTaskRepository.GetByVersionIdAsync(versionId);
 
-            // REGRA DE OURO: Não libera se houver tarefa pendente ou sem evidência
+            if (!tasks.Any())
+                throw new Exception(
+                    "Não é possível liberar uma versão sem tarefas."
+                );
+
             var hasIssues = tasks.Any(t =>
                 !t.MergeRealizado ||
-                t.StatusPlanejamento != TaskStatus.Confirmado); // Comparação com Enum
+                t.StatusPlanejamento != TaskStatus.Confirmado
+            );
 
             if (hasIssues)
-                throw new Exception("Existem tarefas não confirmadas ou sem merge.");
+                throw new Exception(
+                    "Existem tarefas não confirmadas ou sem merge."
+                );
 
-            version.StatusVersao = VersionStatus.Liberada; // Atribuição de Enum
+            version.StatusVersao = VersionStatus.Liberada;
             version.DataLiberacaoReal = DateTime.UtcNow;
 
             await _repository.UpdateAsync(version);
